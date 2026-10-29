@@ -20,11 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-private val VoteRed = Color(0xFFF0525A)
-private val VoteGray = Color(0xFFC9C9CE)
-private val ConfirmOrange = Color(0xFFFF7A1A)
-private val DarkContent = Color(0xFF111113)
-
 private const val LOG_TAG = "VotingScreen"
 
 private enum class VoteOption(
@@ -33,9 +28,9 @@ private enum class VoteOption(
     val background: Color,
     val contentColor: Color
 ) {
-    FOR("За", "✓", GreenText, DarkContent),
-    AGAINST("Против", "✕", VoteRed, Color.White),
-    ABSTAIN("Воздержался", "—", VoteGray, DarkContent)
+    FOR("За", "✓", BoardColors.VoteGreen, BoardColors.DarkContent),
+    AGAINST("Против", "✕", BoardColors.VoteRed, BoardColors.WhiteText),
+    ABSTAIN("Воздержался", "—", BoardColors.VoteGray, BoardColors.DarkContent)
 }
 
 @Composable
@@ -50,7 +45,7 @@ fun VotingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(BoardColors.DarkBackground)
             .padding(24.dp)
     ) {
         Row(
@@ -58,21 +53,21 @@ fun VotingScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Совет директоров", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Text("Совет директоров", color = BoardColors.WhiteText, fontSize = 16.sp, fontWeight = FontWeight.Bold)
 
             Row(
                 modifier = Modifier
-                    .background(CardBackground, RoundedCornerShape(50))
+                    .background(BoardColors.CardBackground, RoundedCornerShape(50))
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     modifier = Modifier
                         .size(10.dp)
-                        .background(GreenText, RoundedCornerShape(50))
+                        .background(BoardColors.GreenText, RoundedCornerShape(50))
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Подключено к серверу", color = Color.White, fontSize = 14.sp)
+                Text("Подключено к серверу", color = BoardColors.WhiteText, fontSize = 14.sp)
             }
         }
 
@@ -80,14 +75,14 @@ fun VotingScreen(
 
         Text(
             "Вопрос $questionNumber из $totalQuestions",
-            color = GreenText,
+            color = BoardColors.GreenText,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             questionText,
-            color = Color.White,
+            color = BoardColors.WhiteText,
             fontSize = 36.sp,
             lineHeight = 44.sp,
             fontWeight = FontWeight.Bold
@@ -116,7 +111,7 @@ fun VotingScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Итог появится, когда ответят все участники", color = GrayText, fontSize = 14.sp)
+            Text("Итог появится, когда ответят все участники", color = BoardColors.GrayText, fontSize = 14.sp)
             ConfirmButton(
                 enabled = selected != null,
                 onClick = { selected?.let { onConfirm(it.title) } }
@@ -139,7 +134,7 @@ private fun VoteButton(
             .height(160.dp)
             .clip(shape)
             .background(option.background)
-            .then(if (isSelected) Modifier.border(4.dp, Color.White, shape) else Modifier)
+            .then(if (isSelected) Modifier.border(4.dp, BoardColors.WhiteText, shape) else Modifier)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
@@ -156,12 +151,12 @@ private fun ConfirmButton(enabled: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(50))
-            .background(ConfirmOrange.copy(alpha = if (enabled) 1f else 0.4f))
+            .background(BoardColors.ConfirmOrange.copy(alpha = if (enabled) 1f else 0.4f))
             .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 40.dp, vertical = 20.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text("Подтвердить выбор", color = DarkContent, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text("Подтвердить выбор", color = BoardColors.DarkContent, fontSize = 20.sp, fontWeight = FontWeight.Bold)
     }
 }
 

@@ -25,21 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-private val SingleChoiceBackground = Color(0xFF191A1D)
-private val SingleChoiceOptionBackground = Color(0xFF2A2A2D)
-private val SingleChoiceSelectedBackground = Color(0xFF353538)
-private val SingleChoiceGreen = Color(0xFF36C477)
-private val SingleChoiceOrange = Color(0xFFFF7900)
-private val SingleChoiceText = Color(0xFFF5F5F5)
-private val SingleChoiceMutedText = Color(0xFF96979D)
-private val SingleChoiceBorder = Color(0xFF444449)
-private val SingleChoiceDisabledOrange = Color(0xFF5B4635)
 
 private const val LOG_TAG = "SingleChoiceScreen"
 
@@ -62,7 +51,7 @@ fun SingleChoiceScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = SingleChoiceBackground
+        color = BoardColors.DarkBackground
     ) {
         Column(
             modifier = Modifier
@@ -77,7 +66,7 @@ fun SingleChoiceScreen(
             ) {
                 Text(
                     text = "Совет директоров",
-                    color = SingleChoiceText,
+                    color = BoardColors.WhiteText,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -85,7 +74,7 @@ fun SingleChoiceScreen(
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(50))
-                        .background(Color(0xFF29292C))
+                        .background(BoardColors.CardBackground) // Заменили хардкод
                         .padding(horizontal = 14.dp, vertical = 7.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -93,14 +82,14 @@ fun SingleChoiceScreen(
                         modifier = Modifier
                             .size(8.dp)
                             .clip(CircleShape)
-                            .background(SingleChoiceGreen)
+                            .background(BoardColors.GreenText)
                     )
 
                     Spacer(modifier = Modifier.size(8.dp))
 
                     Text(
                         text = "Подключено к серверу",
-                        color = SingleChoiceText,
+                        color = BoardColors.WhiteText,
                         fontSize = 12.sp
                     )
                 }
@@ -111,7 +100,7 @@ fun SingleChoiceScreen(
             // Номер вопроса
             Text(
                 text = "Вопрос $questionNumber из $totalQuestions",
-                color = SingleChoiceGreen,
+                color = BoardColors.GreenText,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -121,7 +110,7 @@ fun SingleChoiceScreen(
             // Заголовок вопроса
             Text(
                 text = questionText,
-                color = Color.White,
+                color = BoardColors.WhiteText,
                 fontSize = 30.sp,
                 lineHeight = 36.sp,
                 fontWeight = FontWeight.Bold
@@ -141,17 +130,17 @@ fun SingleChoiceScreen(
                         .clip(shape)
                         .background(
                             if (isSelected) {
-                                SingleChoiceSelectedBackground
+                                BoardColors.SelectedBackground
                             } else {
-                                SingleChoiceOptionBackground
+                                BoardColors.OptionBackground
                             }
                         )
                         .border(
                             width = if (isSelected) 2.dp else 1.dp,
                             color = if (isSelected) {
-                                SingleChoiceGreen
+                                BoardColors.GreenText
                             } else {
-                                SingleChoiceBorder
+                                BoardColors.BorderGray
                             },
                             shape = shape
                         )
@@ -171,9 +160,9 @@ fun SingleChoiceScreen(
                             .border(
                                 width = 2.dp,
                                 color = if (isSelected) {
-                                    SingleChoiceGreen
+                                    BoardColors.GreenText
                                 } else {
-                                    SingleChoiceMutedText
+                                    BoardColors.GrayText
                                 },
                                 shape = CircleShape
                             ),
@@ -184,7 +173,7 @@ fun SingleChoiceScreen(
                                 modifier = Modifier
                                     .size(12.dp)
                                     .clip(CircleShape)
-                                    .background(SingleChoiceGreen)
+                                    .background(BoardColors.GreenText)
                             )
                         }
                     }
@@ -193,7 +182,7 @@ fun SingleChoiceScreen(
 
                     Text(
                         text = option,
-                        color = SingleChoiceText,
+                        color = BoardColors.WhiteText,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Normal
                     )
@@ -211,7 +200,7 @@ fun SingleChoiceScreen(
             ) {
                 Text(
                     text = "Проверьте выбор перед отправкой",
-                    color = SingleChoiceMutedText,
+                    color = BoardColors.GrayText,
                     fontSize = 13.sp
                 )
 
@@ -220,9 +209,9 @@ fun SingleChoiceScreen(
                         .clip(RoundedCornerShape(50))
                         .background(
                             if (selectedOption != null) {
-                                SingleChoiceOrange
+                                BoardColors.ConfirmOrange
                             } else {
-                                SingleChoiceDisabledOrange
+                                BoardColors.OrangeDisabled
                             }
                         )
                         .clickable(enabled = selectedOption != null) {
@@ -239,7 +228,7 @@ fun SingleChoiceScreen(
                 ) {
                     Text(
                         text = "Подтвердить выбор",
-                        color = Color(0xFF111113),
+                        color = BoardColors.DarkContent,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )

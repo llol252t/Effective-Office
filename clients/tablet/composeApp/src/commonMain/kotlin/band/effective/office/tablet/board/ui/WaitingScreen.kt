@@ -18,11 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import band.effective.office.tablet.board.viewmodel.WaitingViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-val DarkBackground = Color(0xFF1E1E1E)
-val CardBackground = Color(0xFF2C2C2C)
-val GreenText = Color(0xFF4CAF50)
-val GrayText = Color(0xFF9E9E9E)
-
 @Composable
 fun WaitingScreen(
     viewModel: WaitingViewModel = viewModel()
@@ -32,7 +27,7 @@ fun WaitingScreen(
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(BoardColors.DarkBackground)
             .padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
@@ -43,17 +38,17 @@ fun WaitingScreen(
         ) {
             CardContainer {
                 Column(modifier = Modifier.padding(24.dp)) {
-                    Text("ВАШЕ ЗАСЕДАНИЕ", color = GrayText, fontSize = 12.sp)
+                    Text("ВАШЕ ЗАСЕДАНИЕ", color = BoardColors.GrayText, fontSize = 12.sp)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(meeting.title, color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                    Text(meeting.title, color = BoardColors.WhiteText, fontSize = 28.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(meeting.date, color = GrayText, fontSize = 16.sp)
+                    Text(meeting.date, color = BoardColors.GrayText, fontSize = 16.sp)
                 }
             }
 
             CardContainer(modifier = Modifier.weight(1f)) {
                 Column(modifier = Modifier.padding(24.dp)) {
-                    Text("ПОВЕСТКА · ${meeting.questions.size} ВОПРОСОВ", color = GrayText, fontSize = 12.sp)
+                    Text("ПОВЕСТКА · ${meeting.questions.size} ВОПРОСОВ", color = BoardColors.GrayText, fontSize = 12.sp)
                     Spacer(modifier = Modifier.height(16.dp))
 
 
@@ -72,33 +67,33 @@ fun WaitingScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, GreenText, RoundedCornerShape(16.dp))
+                    .border(1.dp, BoardColors.GreenText, RoundedCornerShape(16.dp))
                     .padding(24.dp)
             ) {
                 Column {
-                    Text("● Голосование ещё не началось", color = GreenText, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text("● Голосование ещё не началось", color = BoardColors.GreenText, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Ожидаем начала голосования.", color = Color.White, fontSize = 16.sp)
+                    Text("Ожидаем начала голосования.", color = BoardColors.WhiteText, fontSize = 16.sp)
                 }
             }
 
             CardContainer {
                 Column(modifier = Modifier.padding(24.dp)) {
-                    Text("УЧАСТНИК", color = GrayText, fontSize = 12.sp)
+                    Text("УЧАСТНИК", color = BoardColors.GrayText, fontSize = 12.sp)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(meeting.participantName, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Text(meeting.participantName, color = BoardColors.WhiteText, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text("Планшет подготовлен для вас", color = GrayText, fontSize = 14.sp)
+                    Text("Планшет подготовлен для вас", color = BoardColors.GrayText, fontSize = 14.sp)
                 }
             }
 
             CardContainer {
                 Column(modifier = Modifier.padding(24.dp)) {
-                    Text("КОНФИДЕНЦИАЛЬНОСТЬ", color = GrayText, fontSize = 12.sp)
+                    Text("КОНФИДЕНЦИАЛЬНОСТЬ", color = BoardColors.GrayText, fontSize = 12.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         "Данные остаются в сети компании. Ваш выбор не раскрывается другим участникам и не сохраняется после заседания.",
-                        color = GrayText, fontSize = 14.sp
+                        color = BoardColors.GrayText, fontSize = 14.sp
                     )
                 }
             }
@@ -112,7 +107,7 @@ fun CardContainer(modifier: Modifier = Modifier, content: @Composable () -> Unit
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(CardBackground, RoundedCornerShape(16.dp))
+            .background(BoardColors.CardBackground, RoundedCornerShape(16.dp))
     ) {
         content()
     }
@@ -123,20 +118,20 @@ fun QuestionRow(number: Int, text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF383838), RoundedCornerShape(12.dp))
+            .background(BoardColors.OptionBackground, RoundedCornerShape(12.dp))
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .size(32.dp)
-                .background(Color(0xFF4A4A4A), RoundedCornerShape(50)),
+                .background(BoardColors.SelectedBackground, RoundedCornerShape(50)),
             contentAlignment = Alignment.Center
         ) {
-            Text(number.toString(), color = Color.White, fontSize = 14.sp)
+            Text(number.toString(), color = BoardColors.WhiteText, fontSize = 14.sp)
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text, color = Color.White, fontSize = 16.sp)
+        Text(text, color = BoardColors.WhiteText, fontSize = 16.sp)
     }
 }
 
