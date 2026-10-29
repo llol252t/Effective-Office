@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import band.effective.office.tablet.board.viewmodel.WaitingViewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val DarkBackground = Color(0xFF1E1E1E)
 val CardBackground = Color(0xFF2C2C2C)
@@ -137,4 +138,10 @@ fun QuestionRow(number: Int, text: String) {
         Spacer(modifier = Modifier.width(16.dp))
         Text(text, color = Color.White, fontSize = 16.sp)
     }
+}
+
+@Preview(showBackground = true, widthDp = 800, heightDp = 600)
+@Composable
+fun WaitingScreenPreview() {
+    WaitingScreen()
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private val VoteRed = Color(0xFFF0525A)
 private val VoteGray = Color(0xFFC9C9CE)
@@ -162,4 +163,19 @@ private fun ConfirmButton(enabled: Boolean, onClick: () -> Unit) {
     ) {
         Text("Подтвердить выбор", color = DarkContent, fontSize = 20.sp, fontWeight = FontWeight.Bold)
     }
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 600,
+    name = "Экран голосования За/Против"
+)
+@Composable
+fun VotingScreenPreview() {
+    VotingScreen(
+        questionNumber = 2,
+        totalQuestions = 5,
+        questionText = "Утвердить годовой бюджет на следующий период"
+    )
 }

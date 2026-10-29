@@ -1,6 +1,5 @@
 package band.effective.office.tablet.board.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private val SingleChoiceBackground = Color(0xFF191A1D)
 private val SingleChoiceOptionBackground = Color(0xFF2A2A2D)
@@ -227,7 +227,6 @@ fun SingleChoiceScreen(
                         )
                         .clickable(enabled = selectedOption != null) {
                             selectedOption?.let { name ->
-                                Log.d(LOG_TAG, "Выбран вариант: $name")
                                 println("[$LOG_TAG] Выбран вариант: $name")
                                 onConfirm(name)
                             }
@@ -248,4 +247,19 @@ fun SingleChoiceScreen(
             }
         }
     }
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 600,
+    name = "Экран выбора из списка"
+)
+@Composable
+fun SingleChoiceScreenPreview() {
+    SingleChoiceScreen(
+        questionNumber = 4,
+        totalQuestions = 5,
+        questionText = "Выбрать корпоративного секретаря"
+    )
 }
