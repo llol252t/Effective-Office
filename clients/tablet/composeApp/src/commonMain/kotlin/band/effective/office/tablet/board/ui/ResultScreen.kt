@@ -1,7 +1,18 @@
 package band.effective.office.tablet.board.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -19,11 +30,11 @@ import androidx.compose.ui.unit.sp
 fun ResultScreen(
     questionNumber: Int = 2,
     totalQuestions: Int = 5,
-    questionText: String = "Утвердить годовой бюджет"
+    questionText: String = "Утвердить годовой бюджет",
+    votesFor: Int = 7,
+    votesAgainst: Int = 2,
+    votesAbstained: Int = 1
 ) {
-    val votesFor = 7
-    val votesAgainst = 2
-    val votesAbstained = 1
     val totalVotes = votesFor + votesAgainst + votesAbstained
 
     Surface(
@@ -33,8 +44,12 @@ fun ResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 40.dp, vertical = 8.dp)
+                .padding(
+                    horizontal = 40.dp,
+                    vertical = 8.dp
+                )
         ) {
+
             // Верхняя панель
             Row(
                 modifier = Modifier
@@ -54,7 +69,10 @@ fun ResultScreen(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(BoardColors.CardBackground)
-                        .padding(horizontal = 22.dp, vertical = 10.dp),
+                        .padding(
+                            horizontal = 22.dp,
+                            vertical = 10.dp
+                        ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
@@ -69,20 +87,23 @@ fun ResultScreen(
                     Text(
                         text = "Подключено к серверу",
                         color = BoardColors.WhiteText,
-                        fontSize = 14.sp
+                        fontSize = 18.sp
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Зеленая плашка с результатом
+            // Блок принятого решения
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(32.dp))
                     .background(BoardColors.VoteGreen)
-                    .padding(horizontal = 36.dp, vertical = 32.dp),
+                    .padding(
+                        horizontal = 36.dp,
+                        vertical = 32.dp
+                    ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
@@ -116,6 +137,7 @@ fun ResultScreen(
                         text = "Решение принято",
                         color = BoardColors.DarkContent,
                         fontSize = 40.sp,
+                        lineHeight = 44.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -123,7 +145,7 @@ fun ResultScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Карточка с результатами голосования
+            // Карточка результатов голосования
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,6 +153,7 @@ fun ResultScreen(
                     .background(BoardColors.OptionBackground)
                     .padding(28.dp)
             ) {
+
                 VoteResultRow(
                     title = "За",
                     count = votesFor,
@@ -158,7 +181,6 @@ fun ResultScreen(
 
                 Spacer(modifier = Modifier.height(22.dp))
 
-                // Итоги кворума
                 Text(
                     text = "Кворум есть · простое большинство · проголосовали $totalVotes из $totalVotes",
                     color = BoardColors.GrayText,
@@ -177,7 +199,8 @@ private fun VoteResultRow(
     barColor: Color
 ) {
     val progress = if (total > 0) {
-        count.toFloat() / total.toFloat()
+        (count.toFloat() / total.toFloat())
+            .coerceIn(0f, 1f)
     } else {
         0f
     }
@@ -186,7 +209,7 @@ private fun VoteResultRow(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Название варианта
+
         Text(
             text = title,
             modifier = Modifier.width(200.dp),
@@ -194,7 +217,6 @@ private fun VoteResultRow(
             fontSize = 20.sp
         )
 
-        // Полоска прогресса
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -211,7 +233,6 @@ private fun VoteResultRow(
             )
         }
 
-        // Количество голосов
         Text(
             text = count.toString(),
             modifier = Modifier
