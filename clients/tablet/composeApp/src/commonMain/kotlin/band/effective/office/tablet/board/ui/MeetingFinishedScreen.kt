@@ -1,5 +1,6 @@
 package band.effective.office.tablet.board.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,14 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class MeetingDecision(
-    val text: String,
-    val isAccepted: Boolean
-)
+import band.effective.office.tablet.board.model.MeetingDecision
 
 private val SampleDecisions = listOf(
     MeetingDecision("Утвердить повестку и регламент заседания", true),
@@ -92,12 +93,7 @@ private fun ThanksCard(modifier: Modifier = Modifier) {
                     .background(BoardColors.GreenText, RoundedCornerShape(50)),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    "✓",
-                    color = BoardColors.DarkContent,
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                CheckMark(modifier = Modifier.size(52.dp))
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -214,5 +210,26 @@ private fun FinishedCard(modifier: Modifier = Modifier, content: @Composable () 
             .background(BoardColors.CardBackground, RoundedCornerShape(24.dp))
     ) {
         content()
+    }
+}
+
+@Composable
+private fun CheckMark(modifier: Modifier = Modifier) {
+    Canvas(modifier = modifier) {
+        val path = Path().apply {
+            moveTo(size.width * 0.22f, size.height * 0.52f)
+            lineTo(size.width * 0.43f, size.height * 0.72f)
+            lineTo(size.width * 0.80f, size.height * 0.30f)
+        }
+
+        drawPath(
+            path = path,
+            color = BoardColors.DarkContent,
+            style = Stroke(
+                width = 3.dp.toPx(),
+                cap = StrokeCap.Round,
+                join = StrokeJoin.Round
+            )
+        )
     }
 }
