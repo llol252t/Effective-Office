@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.settings)
 
             implementation(project(":clients:tablet:core:ui"))
+            implementation(project(":clients:tablet:feature:board"))
             implementation(project(":clients:tablet:feature:main"))
             implementation(project(":clients:tablet:feature:settings"))
             implementation(project(":clients:tablet:feature:bookingEditor"))

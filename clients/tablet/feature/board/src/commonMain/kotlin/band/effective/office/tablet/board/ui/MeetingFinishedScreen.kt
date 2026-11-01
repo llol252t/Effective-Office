@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import band.effective.office.tablet.board.model.MeetingDecision
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private val SampleDecisions = listOf(
     MeetingDecision("Утвердить повестку и регламент заседания", true),
@@ -232,4 +233,9 @@ private fun CheckMark(modifier: Modifier = Modifier) {
             )
         )
     }
+}
+@Preview(showBackground = true, widthDp = 800, heightDp = 600)
+@Composable
+fun mainContent1() {
+    MeetingFinishedScreen()
 }

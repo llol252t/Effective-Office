@@ -61,6 +61,7 @@ include(
     "clients:tablet:core:ui",
     "clients:tablet:core:domain",
     "clients:tablet:core:data",
+    "clients:tablet:feature:board",
     "clients:tablet:feature:main",
     "clients:tablet:feature:settings",
     "clients:tablet:feature:bookingEditor",

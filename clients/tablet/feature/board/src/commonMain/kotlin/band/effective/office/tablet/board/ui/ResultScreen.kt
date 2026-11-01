@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ResultScreen(
@@ -243,4 +244,10 @@ private fun VoteResultRow(
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Preview(showBackground = true, widthDp = 800, heightDp = 600)
+@Composable
+fun mainContent2() {
+    ResultScreen()
 }
