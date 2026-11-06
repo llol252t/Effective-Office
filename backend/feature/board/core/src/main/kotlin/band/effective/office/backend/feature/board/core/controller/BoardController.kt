@@ -72,6 +72,16 @@ class BoardController(
     ): ResponseEntity<ParticipantDTO> =
         ResponseEntity.ok(boardService.claimParticipant(meetingId, request))
 
+    @PostMapping("/meetings/{meetingId}/participants/{participantId}/release")
+    @Operation(summary = "Release a name", description = "The secretary resets a single name claim (e.g. a participant picked the wrong name). Other tablets are unaffected")
+    fun releaseParticipant(
+        @PathVariable meetingId: Long,
+        @PathVariable participantId: Long
+    ): ResponseEntity<Map<String, String>> {
+        boardService.releaseParticipant(meetingId, participantId)
+        return ResponseEntity.ok(mapOf("status" to "released"))
+    }
+
     // ---------- Voting ----------
 
     @PostMapping("/meetings/{meetingId}/questions/{questionNumber}/open")

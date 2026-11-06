@@ -146,6 +146,20 @@ class BoardService {
         return getParticipants(meetingId).first { it.id == participantId }
     }
 
+    /**
+     * The secretary releases a claimed name (e.g. someone picked the wrong name).
+     * Only this one claim is reset; other tablets keep their names.
+     */
+    @Synchronized
+    fun releaseParticipant(meetingId: Long, participantId: Long) {
+        val state = getState(meetingId)
+        if (!state.claims.containsKey(participantId)) {
+            throw InvalidBoardRequestException("Unknown participant $participantId")
+        }
+        state.claims[participantId] = false
+        logger.info("Meeting {}: participant {} released", meetingId, participantId)
+    }
+
     // ---------- Voting ----------
 
     /** Opens voting for a question (by its agenda number, starting from 1). */
