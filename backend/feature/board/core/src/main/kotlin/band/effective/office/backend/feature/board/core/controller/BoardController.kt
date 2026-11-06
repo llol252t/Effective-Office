@@ -4,7 +4,6 @@ import band.effective.office.backend.feature.board.core.dto.BoardDtoMapper
 import band.effective.office.backend.feature.board.core.dto.ClaimParticipantRequest
 import band.effective.office.backend.feature.board.core.dto.CreateMeetingRequest
 import band.effective.office.backend.feature.board.core.dto.CurrentStateDTO
-import band.effective.office.backend.feature.board.core.dto.MeetingDTO
 import band.effective.office.backend.feature.board.core.dto.MeetingDetailsDTO
 import band.effective.office.backend.feature.board.core.dto.MeetingResultsDTO
 import band.effective.office.backend.feature.board.core.dto.ParticipantDTO
@@ -47,10 +46,10 @@ class BoardController(
         return ResponseEntity.ok(BoardDtoMapper.toMeetingDetailsDTO(meeting))
     }
 
-    @GetMapping("/meetings")
-    @Operation(summary = "List meetings")
-    fun getMeetings(): ResponseEntity<List<MeetingDTO>> =
-        ResponseEntity.ok(BoardDtoMapper.toMeetingDTOList(boardService.getMeetings()))
+    @GetMapping("/meetings/active")
+    @Operation(summary = "Active meeting", description = "The tablet fetches the currently running meeting; 404 when there is none")
+    fun getActiveMeeting(): ResponseEntity<MeetingDetailsDTO> =
+        ResponseEntity.ok(BoardDtoMapper.toMeetingDetailsDTO(boardService.getActiveMeeting()))
 
     @GetMapping("/meetings/{meetingId}")
     @Operation(summary = "Meeting by id", description = "Full details: questions, quorum, decision rules")

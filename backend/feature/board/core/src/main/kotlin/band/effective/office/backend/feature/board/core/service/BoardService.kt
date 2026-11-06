@@ -99,8 +99,12 @@ class BoardService {
 
         logger.info("Created meeting {} '{}' with {} questions and {} participants",
             meetingId, meeting.title, questions.size, request.participants.size)
+        activeMeetingId = meetingId
         return meeting
     }
+
+    /** Id of the currently running meeting, null when there is none. */
+    private var activeMeetingId: Long? = null
 
     /** Participant names per meeting state (the claims keys are their ids). */
     private val stateParticipants = mutableMapOf<MeetingState, List<String>>()
@@ -109,8 +113,11 @@ class BoardService {
     fun getMeeting(meetingId: Long): Meeting =
         meetings[meetingId]?.meeting ?: throw MeetingNotFoundException("Meeting $meetingId not found")
 
-    /** Returns the list of meetings. */
-    fun getMeetings(): List<Meeting> = meetings.values.map { it.meeting }
+    /** Returns the currently active meeting or throws MeetingNotFoundException. */
+    fun getActiveMeeting(): Meeting {
+        val id = activeMeetingId ?: throw MeetingNotFoundException("No active meeting")
+        return getMeeting(id)
+    }
 
     // ---------- Participant authorization (tablets) ----------
 
@@ -267,6 +274,7 @@ class BoardService {
         state.votes.clear()
         state.claims.replaceAll { _, _ -> false }
         state.finished = true
+        if (activeMeetingId == meetingId) activeMeetingId = null
         logger.info("Meeting {}: finished, individual votes deleted", meetingId)
         return results
     }

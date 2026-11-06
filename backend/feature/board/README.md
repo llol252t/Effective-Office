@@ -53,7 +53,7 @@ board/
     │       ├── Question.kt                   # Question and voting rules
     │       └── Vote.kt                       # Participant vote
     ├── dto/
-    │   ├── MeetingDTO.kt                     # Meeting DTO
+    │   ├── MeetingDetailsDTO.kt              # Meeting DTOs
     │   └── BoardDtoMapper.kt                 # Model -> DTO conversion
     └── exception/
         ├── BoardExceptions.kt                # Module exceptions
