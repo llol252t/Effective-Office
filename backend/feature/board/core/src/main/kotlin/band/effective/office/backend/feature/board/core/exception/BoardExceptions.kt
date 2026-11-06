@@ -27,6 +27,13 @@ class VotingNotOpenException(
 ) : BoardException(message, BoardErrorCodes.VOTING_NOT_OPEN)
 
 /**
+ * Имя участника уже занято другим планшетом.
+ */
+class ParticipantAlreadyClaimedException(
+    message: String = "Participant name is already claimed"
+) : BoardException(message, BoardErrorCodes.PARTICIPANT_ALREADY_CLAIMED)
+
+/**
  * Некорректные входные параметры запроса.
  */
 class InvalidBoardRequestException(

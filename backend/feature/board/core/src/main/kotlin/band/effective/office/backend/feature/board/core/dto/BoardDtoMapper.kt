@@ -8,7 +8,7 @@ import band.effective.office.backend.feature.board.core.domain.model.Meeting
 object BoardDtoMapper {
 
     /**
-     * Конвертирует доменную модель заседания в DTO.
+     * Конвертирует доменную модель заседания в краткий DTO (для списка).
      */
     fun toMeetingDTO(meeting: Meeting): MeetingDTO {
         return MeetingDTO(
@@ -21,9 +21,31 @@ object BoardDtoMapper {
     }
 
     /**
-     * Конвертирует список доменных моделей заседаний в список DTO.
+     * Конвертирует список доменных моделей заседаний в список кратких DTO.
      */
     fun toMeetingDTOList(meetings: List<Meeting>): List<MeetingDTO> {
         return meetings.map { toMeetingDTO(it) }
+    }
+
+    /**
+     * Конвертирует доменную модель заседания в полный DTO (с вопросами).
+     */
+    fun toMeetingDetailsDTO(meeting: Meeting): MeetingDetailsDTO {
+        return MeetingDetailsDTO(
+            id = meeting.id,
+            title = meeting.title,
+            date = meeting.date,
+            questions = meeting.questions.mapIndexed { index, q ->
+                QuestionDTO(
+                    id = q.id,
+                    number = index + 1,
+                    text = q.text,
+                    type = q.type,
+                    options = q.options,
+                    quorum = q.quorum,
+                    rule = q.rule
+                )
+            }
+        )
     }
 }

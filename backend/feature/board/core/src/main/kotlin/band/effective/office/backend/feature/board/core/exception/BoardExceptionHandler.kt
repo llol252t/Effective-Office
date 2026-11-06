@@ -26,6 +26,12 @@ class BoardExceptionHandler {
             ErrorDto(message = ex.message, code = ex.errorCode)
         )
 
+    @ExceptionHandler(ParticipantAlreadyClaimedException::class)
+    fun handleParticipantClaimed(ex: ParticipantAlreadyClaimedException): ResponseEntity<ErrorDto> =
+        ResponseEntity.status(HttpStatus.CONFLICT).body(
+            ErrorDto(message = ex.message, code = ex.errorCode)
+        )
+
     @ExceptionHandler(InvalidBoardRequestException::class)
     fun handleInvalidRequest(ex: InvalidBoardRequestException): ResponseEntity<ErrorDto> =
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(

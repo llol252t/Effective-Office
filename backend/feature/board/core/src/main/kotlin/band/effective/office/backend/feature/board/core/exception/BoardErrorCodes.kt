@@ -7,6 +7,7 @@ package band.effective.office.backend.feature.board.core.exception
 object BoardErrorCodes {
     // Ошибки состояния заседания (4xx)
     const val MEETING_NOT_FOUND = 401
+    const val PARTICIPANT_ALREADY_CLAIMED = 402
 
     // Ошибки состояния голосования (5xx)
     const val VOTING_NOT_OPEN = 501
