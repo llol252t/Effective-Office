@@ -32,6 +32,7 @@ include(
     "backend:core:repository",
     "backend:core:data",
     "backend:feature",
+    "backend:feature:board:core",
     "backend:feature:authorization",
     "backend:feature:user",
     "backend:feature:booking:core",

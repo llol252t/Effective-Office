@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":backend:core:data"))
     implementation(project(":backend:core:domain"))
     implementation(project(":backend:core:repository"))
+    implementation(project(":backend:feature:board:core"))
     implementation(project(":backend:feature:user"))
     implementation(project(":backend:feature:booking:core"))
     implementation(project(":backend:feature:booking:calendar:google"))

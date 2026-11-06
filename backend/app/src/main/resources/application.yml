@@ -40,6 +40,7 @@ springdoc:
     operations-sorter: method
   packages-to-scan:
     - band.effective.office.backend.app.controller
+    - band.effective.office.backend.feature.board.core.controller
     - band.effective.office.backend.feature.authorization.controller
     - band.effective.office.backend.feature.booking.core.controller
     - band.effective.office.backend.feature.workspace.core.controller
