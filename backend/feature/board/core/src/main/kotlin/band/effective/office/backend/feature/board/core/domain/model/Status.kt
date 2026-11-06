@@ -1,32 +1,32 @@
 package band.effective.office.backend.feature.board.core.domain.model
 
 /**
- * Состояние заседания (то, что планшет показывает участнику).
+ * Meeting state (what the tablet shows to the participant).
  */
 enum class MeetingStatus {
-    /** Заседание создано, идёт подключение участников */
+    /** Meeting created, participants are connecting */
     WAITING,
 
-    /** Открыто голосование по текущему вопросу */
+    /** Voting is open for the current question */
     VOTING_OPEN,
 
-    /** Голосование по вопросу закрыто, показан итог */
+    /** Voting for the question is closed, result is shown */
     QUESTION_CLOSED,
 
-    /** Заседание завершено, индивидуальные ответы удалены */
+    /** Meeting finished, individual answers deleted */
     FINISHED
 }
 
 /**
- * Состояние вопроса повестки.
+ * Agenda question state.
  */
 enum class QuestionStatus {
-    /** Вопрос ещё не рассматривался */
+    /** Question has not been considered yet */
     PENDING,
 
-    /** По вопросу открыто голосование */
+    /** Voting is open for this question */
     OPEN,
 
-    /** Голосование по вопросу закрыто */
+    /** Voting for this question is closed */
     CLOSED
 }

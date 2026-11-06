@@ -4,39 +4,39 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 /**
- * Тип голосования по вопросу.
+ * Type of voting for a question.
  */
 enum class VotingType {
-    /** За / против / воздержался */
+    /** For / against / abstain */
     FOR_AGAINST_ABSTAIN,
 
-    /** Выбор одного варианта из списка */
+    /** Single choice from a list of options */
     SINGLE_CHOICE
 }
 
 /**
- * Правило принятия решения по вопросу.
+ * Decision rule for a question.
  */
 enum class DecisionRule {
-    /** Простое большинство голосов */
+    /** Simple majority of votes */
     SIMPLE_MAJORITY,
 
-    /** Не менее двух третей голосов */
+    /** At least two thirds of votes */
     TWO_THIRDS,
 
-    /** Все участники проголосовали «за» */
+    /** All participants voted "for" */
     UNANIMOUS
 }
 
 /**
- * Доменная модель вопроса повестки.
+ * Domain model representing an agenda question.
  *
- * @property id уникальный идентификатор вопроса
- * @property text формулировка вопроса
- * @property type тип голосования
- * @property options варианты ответов (для SINGLE_CHOICE, иначе пусто)
- * @property quorum минимальное число проголосовавших для действительности
- * @property rule правило принятия решения
+ * @property id unique question identifier
+ * @property text question wording
+ * @property type voting type
+ * @property options answer options (for SINGLE_CHOICE, empty otherwise)
+ * @property quorum minimum number of voters for the vote to be valid
+ * @property rule decision rule
  */
 data class Question(
     @field:NotNull(message = "Question id is required")

@@ -2,50 +2,50 @@ package band.effective.office.backend.feature.board.core.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Прогресс голосования по вопросу (для админки)")
+@Schema(description = "Voting progress for a question (for the admin app)")
 data class VoteProgressDTO(
-    @Schema(description = "Сколько участников ответили", example = "8")
+    @Schema(description = "How many participants have answered", example = "8")
     val answered: Int,
 
-    @Schema(description = "Всего участников", example = "10")
+    @Schema(description = "Total number of participants", example = "10")
     val total: Int
 )
 
-@Schema(description = "Агрегированный результат по одному вопросу")
+@Schema(description = "Aggregated result for a single question")
 data class QuestionResultDTO(
-    @Schema(description = "Идентификатор вопроса")
+    @Schema(description = "Question identifier")
     val questionId: Long,
 
-    @Schema(description = "Порядковый номер в повестке")
+    @Schema(description = "Ordinal number in the agenda")
     val number: Int,
 
-    @Schema(description = "Формулировка вопроса")
+    @Schema(description = "Question text")
     val text: String,
 
-    @Schema(description = "Голоса по вариантам: вариант -> количество")
+    @Schema(description = "Votes per option: option -> count")
     val counts: Map<String, Int>,
 
-    @Schema(description = "Сколько участников ответили")
+    @Schema(description = "How many participants have answered")
     val answered: Int,
 
-    @Schema(description = "Кворум набран")
+    @Schema(description = "Quorum reached")
     val quorumReached: Boolean,
 
-    @Schema(description = "Решение принято")
+    @Schema(description = "Decision accepted")
     val accepted: Boolean,
 
-    @Schema(description = "Вариант-победитель (для SINGLE_CHOICE)")
+    @Schema(description = "Winning option (for SINGLE_CHOICE)")
     val winner: String? = null
 )
 
-@Schema(description = "Итоги заседания по всем вопросам")
+@Schema(description = "Meeting results across all questions")
 data class MeetingResultsDTO(
-    @Schema(description = "Идентификатор заседания")
+    @Schema(description = "Meeting identifier")
     val meetingId: Long,
 
-    @Schema(description = "Заседание завершено")
+    @Schema(description = "Meeting is finished")
     val finished: Boolean,
 
-    @Schema(description = "Результаты по вопросам")
+    @Schema(description = "Results per question")
     val results: List<QuestionResultDTO>
 )

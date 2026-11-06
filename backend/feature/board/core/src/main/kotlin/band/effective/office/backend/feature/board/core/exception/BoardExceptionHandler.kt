@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 /**
- * Обработчик исключений модуля board.
+ * Exception handler of the board module.
  */
 @RestControllerAdvice
 class BoardExceptionHandler {
@@ -38,7 +38,7 @@ class BoardExceptionHandler {
             ErrorDto(message = ex.message, code = ex.errorCode)
         )
 
-    /** Общий обработчик BoardException. */
+    /** General BoardException handler. */
     @ExceptionHandler(BoardException::class)
     fun handleBoardException(ex: BoardException): ResponseEntity<ErrorDto> {
         logger.error("Board exception: {}", ex.message)

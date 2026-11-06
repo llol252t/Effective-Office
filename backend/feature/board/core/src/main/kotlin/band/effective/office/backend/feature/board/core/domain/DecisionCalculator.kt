@@ -4,19 +4,19 @@ import band.effective.office.backend.feature.board.core.domain.model.DecisionRul
 import band.effective.office.backend.feature.board.core.domain.model.Question
 import band.effective.office.backend.feature.board.core.domain.model.VotingType
 
-/** Стандартные варианты для голосования «за/против/воздержался». */
+/** Standard options for the "for/against/abstain" voting type. */
 const val ANSWER_FOR = "За"
 const val ANSWER_AGAINST = "Против"
 const val ANSWER_ABSTAIN = "Воздержался"
 
 /**
- * Чистая логика подсчёта результатов голосования.
- * Не зависит от Spring — удобно покрывать юнит-тестами.
+ * Pure vote-counting logic.
+ * Does not depend on Spring — easy to cover with unit tests.
  */
 object DecisionCalculator {
 
     /**
-     * Подсчёт голосов по каждому варианту ответа.
+     * Counts votes for each answer option.
      */
     fun countVotes(question: Question, answers: List<String>): Map<String, Int> {
         val variants = when (question.type) {
@@ -27,14 +27,14 @@ object DecisionCalculator {
     }
 
     /**
-     * Набран ли кворум: проголосовавших не меньше, чем требуется.
+     * Whether quorum is reached: the number of voters is not less than required.
      */
     fun hasQuorum(question: Question, votedCount: Int): Boolean = votedCount >= question.quorum
 
     /**
-     * Принято ли решение по вопросу.
-     * Для FOR_AGAINST_ABSTAIN — по правилу из вопроса.
-     * Для SINGLE_CHOICE — вопрос «принят», если есть кворум (победитель см. [winner]).
+     * Whether the decision on the question is accepted.
+     * For FOR_AGAINST_ABSTAIN — according to the question's rule.
+     * For SINGLE_CHOICE — the question is "accepted" if quorum is reached (see [winner]).
      */
     fun isAccepted(question: Question, answers: List<String>): Boolean {
         if (!hasQuorum(question, answers.size)) return false
@@ -47,15 +47,15 @@ object DecisionCalculator {
 
         return when (question.rule) {
             DecisionRule.SIMPLE_MAJORITY -> forCount > againstCount
-            // «две трети» от проголосовавших «за»/«против»: for * 3 >= 2 * (for + against)
+            // "two thirds" of for/against votes: for * 3 >= 2 * (for + against)
             DecisionRule.TWO_THIRDS -> forCount > 0 && forCount * 3 >= 2 * (forCount + againstCount)
             DecisionRule.UNANIMOUS -> forCount > 0 && againstCount == 0 && abstainCount == 0
         }
     }
 
     /**
-     * Вариант-победитель для голосования «выбор из списка» (простое большинство).
-     * Возвращает null, если кворум не набран.
+     * Winning option for "single choice" voting (simple majority).
+     * Returns null if quorum is not reached.
      */
     fun winner(question: Question, answers: List<String>): String? {
         if (question.type != VotingType.SINGLE_CHOICE) return null

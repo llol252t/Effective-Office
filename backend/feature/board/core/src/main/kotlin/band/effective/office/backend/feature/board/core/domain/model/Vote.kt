@@ -3,12 +3,12 @@ package band.effective.office.backend.feature.board.core.domain.model
 import jakarta.validation.constraints.NotNull
 
 /**
- * Доменная модель голоса участника.
- * Хранится только до завершения заседания, затем удаляется.
+ * Domain model representing a participant's vote.
+ * Stored only until the meeting is finished, then deleted.
  *
- * @property questionId идентификатор вопроса
- * @property participantId идентификатор участника (планшета)
- * @property answer выбранный ответ (вариант)
+ * @property questionId question identifier
+ * @property participantId participant (tablet) identifier
+ * @property answer chosen answer (option)
  */
 data class Vote(
     @field:NotNull(message = "Question id is required")

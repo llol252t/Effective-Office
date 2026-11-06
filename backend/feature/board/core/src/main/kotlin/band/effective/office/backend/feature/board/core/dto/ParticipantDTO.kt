@@ -2,20 +2,20 @@ package band.effective.office.backend.feature.board.core.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Участник заседания (строка в списке на планшете)")
+@Schema(description = "Meeting participant (a row in the list on the tablet)")
 data class ParticipantDTO(
-    @Schema(description = "Идентификатор участника", example = "1")
+    @Schema(description = "Participant identifier", example = "1")
     val id: Long,
 
-    @Schema(description = "ФИО участника", example = "Артём Сергеевич Волков")
+    @Schema(description = "Participant full name", example = "Artem Sergeevich Volkov")
     val name: String,
 
-    @Schema(description = "Имя уже занято каким-то планшетом", example = "false")
+    @Schema(description = "Name is already claimed by some tablet", example = "false")
     val claimed: Boolean
 )
 
-@Schema(description = "Запрос на авторизацию: планшет занимает имя участника")
+@Schema(description = "Authorization request: the tablet claims a participant name")
 data class ClaimParticipantRequest(
-    @Schema(description = "Идентификатор выбранного участника", example = "1")
+    @Schema(description = "Identifier of the selected participant", example = "1")
     val participantId: Long
 )

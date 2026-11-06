@@ -4,41 +4,41 @@ import band.effective.office.backend.feature.board.core.domain.model.DecisionRul
 import band.effective.office.backend.feature.board.core.domain.model.VotingType
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Полная информация о заседании (для планшета и админки)")
+@Schema(description = "Full meeting details (for the tablet and the admin app)")
 data class MeetingDetailsDTO(
-    @Schema(description = "Идентификатор заседания", example = "1")
+    @Schema(description = "Meeting identifier", example = "1")
     val id: Long,
 
-    @Schema(description = "Название заседания")
+    @Schema(description = "Meeting title")
     val title: String,
 
-    @Schema(description = "Дата и время")
+    @Schema(description = "Date and time")
     val date: String,
 
-    @Schema(description = "Вопросы повестки")
+    @Schema(description = "Agenda questions")
     val questions: List<QuestionDTO>
 )
 
-@Schema(description = "Вопрос повестки")
+@Schema(description = "Agenda question")
 data class QuestionDTO(
-    @Schema(description = "Идентификатор вопроса", example = "1")
+    @Schema(description = "Question identifier", example = "1")
     val id: Long,
 
-    @Schema(description = "Порядковый номер в повестке", example = "1")
+    @Schema(description = "Ordinal number in the agenda", example = "1")
     val number: Int,
 
-    @Schema(description = "Формулировка вопроса")
+    @Schema(description = "Question text")
     val text: String,
 
-    @Schema(description = "Тип голосования")
+    @Schema(description = "Voting type")
     val type: VotingType,
 
-    @Schema(description = "Варианты ответов (для SINGLE_CHOICE)")
+    @Schema(description = "Answer options (for SINGLE_CHOICE)")
     val options: List<String>,
 
-    @Schema(description = "Минимальный кворум")
+    @Schema(description = "Minimum quorum")
     val quorum: Int,
 
-    @Schema(description = "Правило принятия решения")
+    @Schema(description = "Decision rule")
     val rule: DecisionRule
 )

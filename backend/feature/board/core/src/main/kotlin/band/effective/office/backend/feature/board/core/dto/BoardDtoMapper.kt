@@ -3,12 +3,12 @@ package band.effective.office.backend.feature.board.core.dto
 import band.effective.office.backend.feature.board.core.domain.model.Meeting
 
 /**
- * Маппер для конвертации доменных моделей модуля board в DTO.
+ * Mapper for converting board module domain models to DTOs.
  */
 object BoardDtoMapper {
 
     /**
-     * Конвертирует доменную модель заседания в краткий DTO (для списка).
+     * Converts a meeting domain model to a short DTO (for lists).
      */
     fun toMeetingDTO(meeting: Meeting): MeetingDTO {
         return MeetingDTO(
@@ -21,14 +21,14 @@ object BoardDtoMapper {
     }
 
     /**
-     * Конвертирует список доменных моделей заседаний в список кратких DTO.
+     * Converts a list of meeting domain models to a list of short DTOs.
      */
     fun toMeetingDTOList(meetings: List<Meeting>): List<MeetingDTO> {
         return meetings.map { toMeetingDTO(it) }
     }
 
     /**
-     * Конвертирует доменную модель заседания в полный DTO (с вопросами).
+     * Converts a meeting domain model to a full DTO (with questions).
      */
     fun toMeetingDetailsDTO(meeting: Meeting): MeetingDetailsDTO {
         return MeetingDetailsDTO(

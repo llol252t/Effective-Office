@@ -1,17 +1,17 @@
 package band.effective.office.backend.feature.board.core.exception
 
 /**
- * Коды ошибок модуля board.
- * Константы определяют коды ошибок, возвращаемые модулем совета директоров.
+ * Error codes of the board module.
+ * These constants define the error codes returned by the board of directors module.
  */
 object BoardErrorCodes {
-    // Ошибки состояния заседания (4xx)
+    // Meeting state errors (4xx)
     const val MEETING_NOT_FOUND = 401
     const val PARTICIPANT_ALREADY_CLAIMED = 402
 
-    // Ошибки состояния голосования (5xx)
+    // Voting state errors (5xx)
     const val VOTING_NOT_OPEN = 501
 
-    // Ошибки валидации (6xx)
+    // Validation errors (6xx)
     const val INVALID_REQUEST = 601
 }

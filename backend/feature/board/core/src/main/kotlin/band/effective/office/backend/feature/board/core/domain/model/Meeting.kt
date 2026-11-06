@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 /**
- * Доменная модель заседания совета директоров.
+ * Domain model representing a board of directors meeting.
  *
- * @property id уникальный идентификатор заседания
- * @property title название заседания
- * @property date дата и время проведения (строкой, как в макетах)
- * @property participantsCount ожидаемое число участников
- * @property questions вопросы повестки
+ * @property id unique meeting identifier
+ * @property title meeting title
+ * @property date date and time (string, as shown in the mockups)
+ * @property participantsCount expected number of participants
+ * @property questions agenda questions
  */
 data class Meeting(
     @field:NotNull(message = "Meeting id is required")

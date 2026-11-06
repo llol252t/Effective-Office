@@ -23,12 +23,12 @@ import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicLong
 
 /**
- * Сервис модуля совета директоров.
+ * Board of directors module service.
  *
- * Все данные живут только в памяти сервера (требование безопасности:
- * после завершения заседания индивидуальные ответы удаляются).
- * Состояние разделено: само заседание неизменяемо, а ход заседания
- * (текущий вопрос, голоса, занятые имена) — в [MeetingState].
+ * All data lives only in the server memory (security requirement:
+ * after the meeting is finished, individual answers are deleted).
+ * State is split: the meeting itself is immutable, while the meeting
+ * progress (current question, votes, claimed names) lives in [MeetingState].
  */
 @Service
 class BoardService {
@@ -37,25 +37,25 @@ class BoardService {
 
     private val idSequence = AtomicLong(1)
 
-    /** Внутреннее изменяемое состояние одного заседания. */
+    /** Internal mutable state of a single meeting. */
     private class MeetingState(
         val meeting: Meeting,
-        /** участник -> занято ли его имя каким-то планшетом */
+        /** participant -> whether their name is claimed by some tablet */
         val claims: MutableMap<Long, Boolean>,
-        /** номер текущего открытого вопроса (индекс в повестке), null — голосование не идёт */
+        /** index of the currently open question in the agenda, null when no voting is in progress */
         var currentQuestionIndex: Int? = null,
-        /** статус каждого вопроса */
+        /** status of each question */
         val questionStatuses: MutableMap<Long, QuestionStatus>,
-        /** голоса: id вопроса -> (id участника -> ответ) */
+        /** votes: question id -> (participant id -> answer) */
         val votes: MutableMap<Long, MutableMap<Long, String>> = mutableMapOf(),
         var finished: Boolean = false
     )
 
     private val meetings = mutableMapOf<Long, MeetingState>()
 
-    // ---------- Подготовка заседания (секретарь) ----------
+    // ---------- Meeting preparation (secretary) ----------
 
-    /** Создаёт заседание с вопросами и участниками. Возвращает id заседания. */
+    /** Creates a meeting with questions and participants. Returns the created meeting. */
     @Synchronized
     fun createMeeting(request: CreateMeetingRequest): Meeting {
         if (request.participants.isEmpty() || request.questions.isEmpty()) {
@@ -90,10 +90,10 @@ class BoardService {
             claims = request.participants.indices.associate { index ->
                 (idSequence.getAndIncrement()) to false
             }.toMutableMap(),
-            // имена участников храним отдельно, в порядке списка
+            // participant names are stored separately, in list order
             questionStatuses = questions.associate { it.id to QuestionStatus.PENDING }.toMutableMap()
         )
-        // сохраняем имена участников в том же порядке, что и id
+        // store participant names in the same order as their ids
         stateParticipants[state] = request.participants.toList()
         meetings[meetingId] = state
 
@@ -102,34 +102,34 @@ class BoardService {
         return meeting
     }
 
-    /** Имена участников по состоянию заседания (ключи claims — их id). */
+    /** Participant names per meeting state (the claims keys are their ids). */
     private val stateParticipants = mutableMapOf<MeetingState, List<String>>()
 
-    /** Возвращает заседание по id или кидает MeetingNotFoundException. */
+    /** Returns a meeting by id or throws MeetingNotFoundException. */
     fun getMeeting(meetingId: Long): Meeting =
         meetings[meetingId]?.meeting ?: throw MeetingNotFoundException("Meeting $meetingId not found")
 
-    /** Возвращает список заседаний. */
+    /** Returns the list of meetings. */
     fun getMeetings(): List<Meeting> = meetings.values.map { it.meeting }
 
-    // ---------- Авторизация участников (планшеты) ----------
+    // ---------- Participant authorization (tablets) ----------
 
-    /** Список участников с отметкой «имя занято» (для экрана выбора на планшете). */
+    /** List of participants with a "name claimed" flag (for the selection screen on the tablet). */
     fun getParticipants(meetingId: Long): List<ParticipantDTO> {
         val state = getState(meetingId)
         val names = stateParticipants[state] ?: emptyList()
         return state.claims.keys.sorted().mapIndexed { index, participantId ->
             ParticipantDTO(
                 id = participantId,
-                name = names.getOrElse(index) { "Участник ${index + 1}" },
+                name = names.getOrElse(index) { "Participant ${index + 1}" },
                 claimed = state.claims[participantId] == true
             )
         }
     }
 
     /**
-     * Планшет занимает имя участника.
-     * Атомарно: если имя уже занято — ParticipantAlreadyClaimedException.
+     * A tablet claims a participant name.
+     * Atomic: if the name is already taken, throws ParticipantAlreadyClaimedException.
      */
     @Synchronized
     fun claimParticipant(meetingId: Long, request: ClaimParticipantRequest): ParticipantDTO {
@@ -146,9 +146,9 @@ class BoardService {
         return getParticipants(meetingId).first { it.id == participantId }
     }
 
-    // ---------- Проведение голосования ----------
+    // ---------- Voting ----------
 
-    /** Открывает голосование по вопросу (по номеру в повестке, начиная с 1). */
+    /** Opens voting for a question (by its agenda number, starting from 1). */
     @Synchronized
     fun openVoting(meetingId: Long, questionNumber: Int) {
         val state = getState(meetingId)
@@ -163,7 +163,7 @@ class BoardService {
         logger.info("Meeting {}: voting opened for question {}", meetingId, questionNumber)
     }
 
-    /** Текущее состояние заседания для планшета (polling). */
+    /** Current meeting state for the tablet (polling). */
     fun getCurrentState(meetingId: Long): CurrentStateDTO {
         val state = getState(meetingId)
         val status = when {
@@ -181,7 +181,7 @@ class BoardService {
         })
     }
 
-    /** Принимает голос участника по текущему открытому вопросу. */
+    /** Accepts a participant's vote for the currently open question. */
     @Synchronized
     fun vote(meetingId: Long, questionNumber: Int, request: VoteRequest) {
         val state = getState(meetingId)
@@ -200,7 +200,7 @@ class BoardService {
         logger.info("Meeting {}: vote accepted for question {}", meetingId, questionNumber)
     }
 
-    /** Прогресс голосования: «N из M ответили». */
+    /** Voting progress: "N of M answered". */
     fun getProgress(meetingId: Long, questionNumber: Int): VoteProgressDTO {
         val state = getState(meetingId)
         val question = questionByNumber(state, questionNumber)
@@ -208,7 +208,7 @@ class BoardService {
         return VoteProgressDTO(answered = answered, total = state.claims.size)
     }
 
-    /** Закрывает голосование по вопросу (в т.ч. «не дожидаясь остальных»). */
+    /** Closes voting for a question (including "without waiting for the rest"). */
     @Synchronized
     fun closeVoting(meetingId: Long, questionNumber: Int) {
         val state = getState(meetingId)
@@ -221,9 +221,9 @@ class BoardService {
         logger.info("Meeting {}: voting closed for question {}", meetingId, questionNumber)
     }
 
-    // ---------- Итоги ----------
+    // ---------- Results ----------
 
-    /** Агрегированные итоги по всем вопросам (без раскрытия индивидуальных голосов). */
+    /** Aggregated results across all questions (no individual votes disclosed). */
     fun getResults(meetingId: Long): MeetingResultsDTO {
         val state = getState(meetingId)
         val results = state.meeting.questions.mapIndexed { index, question ->
@@ -243,8 +243,8 @@ class BoardService {
     }
 
     /**
-     * Завершает заседание: удаляет индивидуальные голоса и привязки планшетов.
-     * Остаются только агрегированные итоги (их секретарь зафиксировал в протоколе).
+     * Finishes the meeting: deletes individual votes and tablet claims.
+     * Only the aggregated results remain (the secretary recorded them in the minutes).
      */
     @Synchronized
     fun finishMeeting(meetingId: Long): MeetingResultsDTO {
@@ -257,7 +257,7 @@ class BoardService {
         return results
     }
 
-    // ---------- Вспомогательное ----------
+    // ---------- Helpers ----------
 
     private fun getState(meetingId: Long): MeetingState =
         meetings[meetingId] ?: throw MeetingNotFoundException("Meeting $meetingId not found")

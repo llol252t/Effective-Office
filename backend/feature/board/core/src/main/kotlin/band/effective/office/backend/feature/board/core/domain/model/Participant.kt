@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 /**
- * Участник заседания.
+ * Meeting participant.
  *
- * @property id уникальный идентификатор участника
- * @property name ФИО участника (как в списке у секретаря)
+ * @property id unique participant identifier
+ * @property name participant full name (as in the secretary's list)
  */
 data class Participant(
     @field:NotNull(message = "Participant id is required")

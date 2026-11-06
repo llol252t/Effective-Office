@@ -1,11 +1,11 @@
 package band.effective.office.backend.feature.board.core.exception
 
 /**
- * Базовый класс исключений модуля board.
- * Все исключения модуля должны наследоваться от этого класса.
+ * Base class of board module exceptions.
+ * All module exceptions must extend this class.
  *
- * @property message подробное описание ошибки
- * @property errorCode код ошибки (не HTTP-статус)
+ * @property message detailed error description
+ * @property errorCode error code (not an HTTP status)
  */
 open class BoardException(
     override val message: String,
@@ -13,28 +13,28 @@ open class BoardException(
 ) : RuntimeException(message)
 
 /**
- * Заседание с указанным идентификатором не найдено.
+ * Meeting with the given identifier was not found.
  */
 class MeetingNotFoundException(
     message: String = "Meeting not found"
 ) : BoardException(message, BoardErrorCodes.MEETING_NOT_FOUND)
 
 /**
- * Голосование по вопросу сейчас не открыто.
+ * Voting for this question is not open right now.
  */
 class VotingNotOpenException(
     message: String = "Voting is not open for this question"
 ) : BoardException(message, BoardErrorCodes.VOTING_NOT_OPEN)
 
 /**
- * Имя участника уже занято другим планшетом.
+ * The participant name is already claimed by another tablet.
  */
 class ParticipantAlreadyClaimedException(
     message: String = "Participant name is already claimed"
 ) : BoardException(message, BoardErrorCodes.PARTICIPANT_ALREADY_CLAIMED)
 
 /**
- * Некорректные входные параметры запроса.
+ * Invalid request parameters.
  */
 class InvalidBoardRequestException(
     message: String = "Invalid board request"

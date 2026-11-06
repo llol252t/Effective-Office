@@ -4,35 +4,35 @@ import band.effective.office.backend.feature.board.core.domain.model.DecisionRul
 import band.effective.office.backend.feature.board.core.domain.model.VotingType
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Запрос на создание заседания")
+@Schema(description = "Meeting creation request")
 data class CreateMeetingRequest(
-    @Schema(description = "Название заседания", example = "Заседание совета директоров № 1")
+    @Schema(description = "Meeting title", example = "Board of directors meeting #1")
     val title: String,
 
-    @Schema(description = "Дата и время", example = "20 октября 2026, 11:00")
+    @Schema(description = "Date and time", example = "October 20, 2026, 11:00")
     val date: String,
 
-    @Schema(description = "Имена участников (в порядке списка для планшетов)")
+    @Schema(description = "Participant names (in the order shown on the tablets)")
     val participants: List<String>,
 
-    @Schema(description = "Вопросы повестки")
+    @Schema(description = "Agenda questions")
     val questions: List<CreateQuestionRequest>
 )
 
-@Schema(description = "Вопрос при создании заседания")
+@Schema(description = "Agenda question at meeting creation")
 data class CreateQuestionRequest(
-    @Schema(description = "Формулировка вопроса", example = "Утвердить годовой бюджет")
+    @Schema(description = "Question text", example = "Approve the annual budget")
     val text: String,
 
-    @Schema(description = "Тип голосования", example = "FOR_AGAINST_ABSTAIN")
+    @Schema(description = "Voting type", example = "FOR_AGAINST_ABSTAIN")
     val type: VotingType,
 
-    @Schema(description = "Варианты ответов (только для SINGLE_CHOICE)")
+    @Schema(description = "Answer options (SINGLE_CHOICE only)")
     val options: List<String> = emptyList(),
 
-    @Schema(description = "Минимальный кворум, участников", example = "7")
+    @Schema(description = "Minimum quorum, participants", example = "7")
     val quorum: Int = 1,
 
-    @Schema(description = "Правило принятия решения", example = "SIMPLE_MAJORITY")
+    @Schema(description = "Decision rule", example = "SIMPLE_MAJORITY")
     val rule: DecisionRule = DecisionRule.SIMPLE_MAJORITY
 )
